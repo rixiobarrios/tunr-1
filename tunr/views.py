@@ -4,6 +4,23 @@ from django.contrib.auth.decorators import login_required
 from .models import Artist, Song, Favorite
 from .forms import ArtistForm, SongForm
 
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.forms import UserCreationForm
+
+def sign_up(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('artist_list')
+    else:
+        form = UserCreationForm()
+    return render(request, 'registration/signup.html', {'form': form})
+
 
 def artist_list(request):
     artists = Artist.objects.all()
@@ -37,7 +54,7 @@ def artist_edit(request, pk):
             return redirect('artist_detail', pk=artist.pk)
     else:
         form = ArtistForm(instance=artist)
-    return render(request, 'tunr/artist_formƒ.html', {'form': form})
+    return render(request, 'tunr/artist_form.html', {'form': form})
 
 
 @login_required

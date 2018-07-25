@@ -16,10 +16,13 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
+from django.urls import path
+from tunr import views as tunr_views
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'', include('tunr.urls')),
-    url(r'^accounts/login/$', auth_views.login, name='login'),
-    url(r'^accounts/logout/$', auth_views.logout, name='logout'),
+    path('admin', admin.site.urls),
+    path('', include('tunr.urls')),
+    path('accounts/login/', auth_views.login, name='login'),
+    path('accounts/logout/', auth_views.logout, name='logout'),
+    path('accounts/signup/', tunr_views.sign_up, name='signup'),
 ]
