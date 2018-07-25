@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
 
 from .models import Artist, Song, Favorite
 from .forms import ArtistForm, SongForm
@@ -14,7 +13,6 @@ def artist_detail(request, pk):
     return render(request, 'tunr/artist_detail.html', {'artist': artist})
 
 
-@login_required
 def artist_create(request):
     if request.method == 'POST':
         form = ArtistForm(request.POST)
@@ -26,7 +24,6 @@ def artist_create(request):
     return render(request, 'tunr/artist_form.html', {'form': form})
 
 
-@login_required
 def artist_edit(request, pk):
     artist = Artist.objects.get(pk=pk)
     if request.method == "POST":
@@ -39,7 +36,6 @@ def artist_edit(request, pk):
     return render(request, 'tunr/artist_form.html', {'form': form})
 
 
-@login_required
 def artist_delete(request, pk):
     Artist.objects.get(id=pk).delete()
     return redirect('artist_list')
@@ -55,7 +51,6 @@ def song_detail(request, pk):
     return render(request, 'tunr/song_detail.html', {'song': song})
 
 
-@login_required
 def song_create(request):
     if request.method == 'POST':
         form = SongForm(request.POST)
@@ -67,7 +62,6 @@ def song_create(request):
     return render(request, 'tunr/song_form.html', {'form': form})
 
 
-@login_required
 def song_edit(request, pk):
     song = Song.objects.get(pk=pk)
     if request.method == "POST":
@@ -80,20 +74,17 @@ def song_edit(request, pk):
     return render(request, 'tunr/song_form.html', {'form': form})
 
 
-@login_required
 def song_delete(request, pk):
     Song.objects.get(id=pk).delete()
     return redirect('song_list')
 
 
-@login_required
 def add_favorite(request, song_id):
     song = Song.objects.get(id=song_id)
     Favorite.objects.create(song=song, user=request.user)
     return redirect('artist_detail', pk=song.artist.pk)
 
 
-@login_required
 def remove_favorite(request, song_id):
     song = Song.objects.get(id=song_id)
     Favorite.objects.get(song=song, user=request.user).delete()
