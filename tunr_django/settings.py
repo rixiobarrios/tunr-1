@@ -27,7 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-LOGIN_REDIRECT_URL = ''
+LOGIN_REDIRECT_URL  = 'artist_list'
+LOGOUT_REDIRECT_URL = 'artist_list'
 
 # Application definition
 
@@ -38,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'tunr'
+    'tunr',
+    'django_extensions'
 ]
 
 MIDDLEWARE = [
