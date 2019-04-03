@@ -14,4 +14,4 @@ def sign_up(request):
             return redirect('artist_list')
     else:
         form = UserCreationForm()
-    return render(request, 'accounts/registration/signup.html', {'form': form})
+    return render(request, 'accounts/signup.html', {'form': form})
